@@ -6,14 +6,12 @@ const S3_BUCKET = process.env.S3_BUCKET_NAME;
 const s3 = new aws.S3();
 
 // Parse application/json
-app.use(express.json({limit: '10mb'}));
+app.use(express.json({ limit: "10mb" }));
 
-app.use(express.static('public'));
+app.use(express.static("public"));
 
 app.post("/upload", (req, res) => {
   const { path, data } = req.body;
-  console.log(path);
-  console.log(data);
   const bytes = parseImageData(data);
 
   let uploadParams = {
@@ -23,15 +21,10 @@ app.post("/upload", (req, res) => {
     Metadata: { type: "jpg" }, // TODO: get image type
   };
 
-  try {
-    const res = s3
-      .upload(uploadParams)
-      .promise()
-      .then((value) => res.status(200).send(value.Location));
-  } catch (e) {
-    console.log(e);
-    res.sendStatus(401);
-  }
+  s3.upload(uploadParams)
+    .promise()
+    .then((value) => res.status(200).send(value.Location))
+    .catch((e) => res.sendStatus(401));
 });
 
 // Pars the uploaded image data
