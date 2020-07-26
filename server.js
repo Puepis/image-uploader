@@ -5,7 +5,7 @@ aws.config.update({ region: 'ca-central-1'})
 const S3_BUCKET = process.env.S3_BUCKET
 const s3 = new aws.S3();
 
-app.post('/upload', (req, res) => {
+app.post('/upload', async (req, res) => {
 
     const { path, data } = req.body;
     const bytes = parseImageData(data);
