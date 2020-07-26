@@ -8,8 +8,12 @@ const s3 = new aws.S3();
 // Parse application/json
 app.use(express.json());
 
+app.use(express.static('public'));
+
 app.post("/upload", (req, res) => {
   const { path, data } = req.body;
+  console.log(path);
+  console.log(data);
   const bytes = parseImageData(data);
 
   let uploadParams = {
