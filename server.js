@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const aws = require('aws-sdk')
 aws.config.update({ region: 'ca-central-1'})
-const S3_BUCKET = process.env.S3_BUCKET
+const S3_BUCKET = process.env.S3_BUCKET_NAME
 const s3 = new aws.S3();
 
 app.post('/upload', async (req, res) => {
