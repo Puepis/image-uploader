@@ -6,7 +6,7 @@ const S3_BUCKET = process.env.S3_BUCKET_NAME;
 const s3 = new aws.S3();
 
 // Parse application/json
-app.use(express.json());
+app.use(express.json({limit: '10mb'}));
 
 app.use(express.static('public'));
 
