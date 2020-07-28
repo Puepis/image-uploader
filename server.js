@@ -18,9 +18,9 @@ app.post("/upload", (req, res) => {
     Bucket: S3_BUCKET,
     Key: path,
     Body: Buffer.from(bytes),
-    Metadata: { type: "jpg" }, // TODO: get image type
+    ContentType: "image/jpg"
   };
-  s3.putObject(uploadParams)
+  s3.upload(uploadParams)
     .promise()
     .then((value) => {
       console.log(value);
@@ -34,6 +34,7 @@ function parseImageData(str) {
   const numBytes = strBytes.map((value) => Number(value));
   return new Uint8Array(numBytes);
 }
+
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () =>
