@@ -12,12 +12,12 @@ app.use(express.static("public"));
 
 app.post("/upload", (req, res) => {
   const { path, data } = req.body;
-  const bytes = parseImageData(data);
+  // const bytes = parseImageData(data);
 
   let uploadParams = {
     Bucket: S3_BUCKET,
     Key: path,
-    Body: Buffer.from(bytes),
+    Body: Buffer.from(data),
   };
   s3.putObject(uploadParams)
     .promise()
