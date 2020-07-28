@@ -20,10 +20,11 @@ app.post("/upload", (req, res) => {
     Body: Buffer.from(bytes),
     Metadata: { type: "jpg" }, // TODO: get image type
   };
-
-  s3.upload(uploadParams)
+  s3.putObject(uploadParams)
     .promise()
-    .then((value) => res.status(200).send(value.Location))
+    .then((value) => {
+      console.log(value);
+      res.status(200).send(value.Location)})
     .catch((e) => res.sendStatus(401));
 });
 
