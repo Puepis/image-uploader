@@ -18,12 +18,11 @@ app.post("/upload", (req, res) => {
     Bucket: S3_BUCKET,
     Key: path,
     Body: Buffer.from(bytes),
-    ContentType: "image/jpg"
+    ContentType: "image/jpeg"
   };
   s3.upload(uploadParams)
     .promise()
     .then((value) => {
-      console.log(value);
       res.status(200).send(value.Location)})
     .catch((e) => res.sendStatus(401));
 });
