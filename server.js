@@ -20,7 +20,7 @@ app.post("/upload", (req, res) => {
     Body: Buffer.from(bytes),
     ContentType: "image/jpeg"
   };
-  s3.upload(uploadParams)
+  s3.putObject(uploadParams)
     .promise()
     .then((value) => {
       res.status(200).send(value.Location)})
