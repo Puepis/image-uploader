@@ -18,7 +18,7 @@ app.post("/upload", (req, res) => {
     Bucket: S3_BUCKET,
     Key: path,
     Body: Buffer.from(bytes),
-    ContentType: "image/jpeg"
+    ContentType: "image/png"
   };
   s3.putObject(uploadParams)
     .promise()
