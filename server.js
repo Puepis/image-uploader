@@ -30,6 +30,7 @@ app.post("/upload", (req, res) => {
 
 // Delete image from S3
 app.delete("/upload", (req, res) => {
+  // The relative path of the file 
   const path = req.headers['path'];
   let deleteParams = {
     Bucket: S3_BUCKET,
