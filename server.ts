@@ -1,4 +1,5 @@
-import express from "express";
+
+import express = require("express");
 const app = express();
 import aws = require('aws-sdk');
 aws.config.update({ region: "ca-central-1" });
