@@ -17,7 +17,7 @@ app.post("/upload", (req, res) => {
   let uploadParams = {
     Bucket: S3_BUCKET,
     Key: path,
-    Body: Buffer.from(data),
+    Body: Buffer.from(bytes),
     ContentType: "image/jpeg"
   };
   s3.putObject(uploadParams)
@@ -29,7 +29,7 @@ app.post("/upload", (req, res) => {
 
 // Pars the uploaded image data
 function parseImageData(str) {
-  const strBytes = str.substring(1, str.length).split(", ");
+  const strBytes = str.substring(1, str.length - 1).split(", ");
   const numBytes = strBytes.map((value) => Number(value));
   return new Uint8Array(numBytes);
 }
