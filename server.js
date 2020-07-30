@@ -10,6 +10,7 @@ app.use(express.json({ limit: '20mb' }));
 
 app.use(express.static("public"));
 
+// Upload image to S3
 app.post("/upload", (req, res) => {
   const { path, data } = req.body;
   const bytes = parseImageData(data);
@@ -24,7 +25,21 @@ app.post("/upload", (req, res) => {
     .promise()
     .then((value) => {
       res.status(200).send(value.Location)})
-    .catch((e) => res.sendStatus(401));
+    .catch((_) => res.sendStatus(401));
+});
+
+// Delete image from S3
+app.delete("/upload", (req, res) => {
+  const path = req.headers['path'];
+  let deleteParams = {
+    Bucket = S3_BUCKET,
+    Key: path
+  } 
+
+  s3.deleteObject(deleteParams)
+    .promise()
+    .then((_) => res.sendStatus(200))
+    .catch((_) => res.sendStatus(401));
 });
 
 // Parse the uploaded image data
