@@ -32,7 +32,7 @@ app.post("/upload", (req, res) => {
 app.delete("/upload", (req, res) => {
   const path = req.headers['path'];
   let deleteParams = {
-    Bucket = S3_BUCKET,
+    Bucket: S3_BUCKET,
     Key: path
   } 
 
