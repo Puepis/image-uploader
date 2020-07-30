@@ -2,9 +2,10 @@
   "name": "image_uploader",
   "version": "1.0.0",
   "description": "The image upload service for the Flutter package issue_submitter",
-  "main": "server.js",
+  "main": "./build/server.js",
   "scripts": {
-    "start": "node ./server.js",
+    "tsc": "tsc",
+    "start": "node ./build/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Philips Xu",
@@ -12,5 +13,8 @@
   "dependencies": {
     "aws-sdk": "^2.720.0",
     "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "@types/aws-sdk": "^2.7.0"
   }
 }
