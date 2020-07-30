@@ -1,14 +1,14 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = require("express");
-const app = express_1.default();
+const express = require("express");
+const app = express();
 const aws = require("aws-sdk");
 aws.config.update({ region: "ca-central-1" });
 const S3_BUCKET = process.env.S3_BUCKET_NAME;
 const s3 = new aws.S3();
 // Parse application/json
-app.use(express_1.default.json({ limit: "20mb" }));
-app.use(express_1.default.static("public"));
+app.use(express.json({ limit: "20mb" }));
+app.use(express.static("public"));
 // Upload image to S3
 app.post("/upload", (req, res) => {
     const { path, data } = req.body;
@@ -32,18 +32,22 @@ app.post("/upload", (req, res) => {
 // Delete image from S3
 app.delete("/upload", (req, res) => {
     // The relative path of the file
-    const path = req.headers["path"];
-    const deleteParams = {
-        Bucket: S3_BUCKET,
-        Key: path,
-    };
-    s3.deleteObject(deleteParams)
-        .promise()
-        .then((_) => res.sendStatus(200))
-        .catch((e) => {
-        console.error("S3 DELETE OBJECT ERROR: ", e);
+    const path = req.headers['path'];
+    if (typeof path !== "string")
         res.sendStatus(401);
-    });
+    else {
+        const deleteParams = {
+            Bucket: S3_BUCKET,
+            Key: path,
+        };
+        s3.deleteObject(deleteParams)
+            .promise()
+            .then((_) => res.sendStatus(200))
+            .catch((e) => {
+            console.error("S3 DELETE OBJECT ERROR: ", e);
+            res.sendStatus(401);
+        });
+    }
 });
 // Parse the uploaded image data
 const parseImageData = (str) => {

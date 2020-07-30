@@ -1,5 +1,5 @@
 
-import express = require("express");
+import express = require('express');
 const app = express();
 import aws = require('aws-sdk');
 aws.config.update({ region: "ca-central-1" });
@@ -36,19 +36,23 @@ app.post("/upload", (req, res) => {
 // Delete image from S3
 app.delete("/upload", (req, res) => {
   // The relative path of the file
-  const path = req.headers["path"];
-  const deleteParams = {
-    Bucket: S3_BUCKET,
-    Key: path,
-  };
+  const path: string | string[] = req.headers['path'];
+  if (typeof path !== "string") res.sendStatus(401);
 
-  s3.deleteObject(deleteParams)
-    .promise()
-    .then((_) => res.sendStatus(200))
-    .catch((e) => {
-      console.error("S3 DELETE OBJECT ERROR: ", e);
-      res.sendStatus(401);
-    });
+  else {
+    const deleteParams = {
+      Bucket: S3_BUCKET,
+      Key: path,
+    };
+
+    s3.deleteObject(deleteParams)
+      .promise()
+      .then((_) => res.sendStatus(200))
+      .catch((e) => {
+        console.error("S3 DELETE OBJECT ERROR: ", e);
+        res.sendStatus(401);
+      });
+  }
 });
 
 // Parse the uploaded image data
