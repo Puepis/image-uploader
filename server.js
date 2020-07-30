@@ -27,7 +27,7 @@ app.post("/upload", (req, res) => {
     .catch((e) => res.sendStatus(401));
 });
 
-// Pars the uploaded image data
+// Parse the uploaded image data
 function parseImageData(str) {
   const strBytes = str.substring(1, str.length - 1).split(", ");
   const numBytes = strBytes.map((value) => Number(value));
